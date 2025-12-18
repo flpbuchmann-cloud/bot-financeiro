@@ -1,0 +1,28 @@
+name: Atualizar Planilha Financeira
+
+on:
+  schedule:
+    # Roda às 11:30 UTC (08:30 Brasília) de Segunda a Sexta (1-5)
+    - cron: '30 11 * * 1-5'
+  workflow_dispatch: # Permite rodar manualmente clicando num botão
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements.txt
+
+      - name: Executar script
+        env:
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+        run: python financeiro.py
