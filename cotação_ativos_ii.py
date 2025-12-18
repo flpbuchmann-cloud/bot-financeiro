@@ -343,6 +343,8 @@ sheet = sheets.InteractiveSheet
 # from google.colab import auth
 # auth.authenticate_user()
 
+import os
+import json
 import gspread
 # from google.auth import default
 # creds, _ = default()
@@ -352,7 +354,8 @@ import gspread
 # Nova forma de autenticação usando uma conta de serviço
 # Certifique-se de ter feito o upload do seu arquivo JSON de credenciais para o ambiente do Colab
 # e substitua 'SEU_ARQUIVO_DE_CREDENCIAIS.json' pelo nome do seu arquivo.
-gc = gspread.service_account(filename='minhachavejson.json')
+creds_json = json.loads(os.environ['GCP_CREDENTIALS'])
+gc = gspread.service_account_from_dict(creds_json)
 
 """Agora, vamos criar uma nova planilha com o nome "Cotações Dia" e carregar o DataFrame nela."""
 
